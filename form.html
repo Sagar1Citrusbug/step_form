@@ -34,7 +34,7 @@
  <br />
   <div class="container box">
    <br />
-   <h2 align="center">Multi Step Registration Form Using JQuery Bootstrap in PHP</h2><br />
+   <h2 align="center">My Step Form with Validation</h2><br />
    <!-- <?php echo $message; ?> -->
    <form method="post" id="register_form">
     <ul class="nav nav-tabs">
@@ -84,25 +84,29 @@
       <div class="panel panel-default">
        <div class="panel-heading">Fill Personal Details</div>
        <div class="panel-body">
+		<div class="form-group">
+			<label>Gender</label>
+			<label class="radio-inline">
+			 <input type="radio" name="gender" value="male" checked> Male
+			</label>
+			<label class="radio-inline">
+			 <input type="radio" name="gender" value="female"> Female
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="gender" value="other"> Other
+			   </label>
+		   </div>
         <div class="form-group">
-         <label>Enter First Name</label>
-         <input type="text" name="first_name" id="first_name" class="form-control" />
-         <span id="error_first_name" class="text-danger"></span>
+         <label>BirthDate : </label>
+         <input type="Date" name="birthdate" id="birthdate" class="form-control" />
+         <span id="error_birthdate" class="text-danger"></span>
         </div>
         <div class="form-group">
-         <label>Enter Last Name</label>
-         <input type="text" name="last_name" id="last_name" class="form-control" />
-         <span id="error_last_name" class="text-danger"></span>
+         <label>Age : </label>
+         <input type="text" name="age" id="age" class="form-control" />
+         <span id="error_age" class="text-danger"></span>
         </div>
-        <div class="form-group">
-         <label>Gender</label>
-         <label class="radio-inline">
-          <input type="radio" name="gender" value="male" checked> Male
-         </label>
-         <label class="radio-inline">
-          <input type="radio" name="gender" value="female"> Female
-         </label>
-        </div>
+        
         <br />
         <div align="center">
          <button type="button" name="previous_btn_personal_details" id="previous_btn_personal_details" class="btn btn-default btn-lg">Previous</button>
@@ -122,10 +126,17 @@
          <span id="error_address" class="text-danger"></span>
         </div>
         <div class="form-group">
-         <label>Enter Mobile No.</label>
-         <input type="text" name="mobile_no" id="mobile_no" class="form-control" />
-         <span id="error_mobile_no" class="text-danger"></span>
+         <label>Country : </label>
+		 <select name="country" id="country" id ="country" class="form-control"></select>
+        <option ></option>
+        
         </div>
+		<div class="form-group">
+			<label>State : </label>
+			<select name="State" id="State" id ="country" class="form-control"></select>
+		   <option ></option>
+		   
+		   </div>
         <br />
         <div align="center">
          <button type="button" name="previous_btn_contact_details" id="previous_btn_contact_details" class="btn btn-default btn-lg">Previous</button>
@@ -138,6 +149,17 @@
     </div>
    </form>
   </div>
-  <script src="C:\Users\SagarMenat\Desktop\learn.js" defer></script>
+  <script src="demo.js" defer></script>
+  <script>$(document).ready(function () {
+    $.getJSON("http://127.0.0.1:5500/countries.json",
+       function (data) {
+          $.each(data, function (key, value) {
+             var cn = $('#country');
+             cn.append('<option>' + value.country_name + '</option>');
+          }
+          );
+       });
+ });
+ </script>
  </body>
 </html>
