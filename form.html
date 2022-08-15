@@ -36,7 +36,7 @@
    <br />
    <h2 align="center">My Step Form with Validation</h2><br />
    <!-- <?php echo $message; ?> -->
-   <form method="post" id="register_form">
+   <form method="post" id="register_form" >
     <ul class="nav nav-tabs">
      <li class="nav-item">
       <a class="nav-link active_tab1" style="border:1px solid #ccc" id="list_login_details">Login Details</a>
@@ -54,6 +54,7 @@
        <div class="panel-heading">Login Details</div>
        <div class="panel-body">
         <div class="form-group">
+         
           <label>Name : </label>
          <input type="text" name="user_name" id="user_name" class="form-control" />
          <span id="error_user_name" class="text-danger"></span>
@@ -127,14 +128,16 @@
         </div>
         <div class="form-group">
          <label>Country : </label>
-		 <select name="country" id="country" id ="country" class="form-control"></select>
-        <option ></option>
+		 <select name="country" id="country"  class="form-control">
+          <option ></option>
+         </select>
         
         </div>
 		<div class="form-group">
 			<label>State : </label>
-			<select name="State" id="State" id ="country" class="form-control"></select>
-		   <option ></option>
+			<select name="State" id="State" class="form-control">
+            <option ></option>
+         </select>
 		   
 		   </div>
         <br />
@@ -151,7 +154,7 @@
   </div>
   <script src="main.js" defer></script>
   <script>$(document).ready(function () {
-    $.getJSON("http://127.0.0.1:5500/countries.json",
+    $.getJSON("./country.json",
        function (data) {
           $.each(data, function (key, value) {
              var cn = $('#country');

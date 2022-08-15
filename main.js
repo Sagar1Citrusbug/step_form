@@ -1,4 +1,15 @@
 $(document).ready(function () {
+    $('#country').change((e) => {
+        $.getJSON("./states.json", (states => {
+            const filteredState = states.find(coun => coun.country === e.target.value)
+            if(filteredState){
+                $.each(filteredState.states, function (key, value) {
+                    var cn = $('#State');
+                    cn.append('<option>' + value + '</option>');
+                 })
+            }    
+        }))
+    })
 
     $('#btn_login_details').click(function () {
         var error_user_name = '';
@@ -200,5 +211,4 @@ $(document).ready(function () {
         }
 
     });
-
 });
