@@ -1,14 +1,27 @@
 $(document).ready(function () {
+    $.getJSON("./country.json",
+       function (data) {
+          $.each(data, function (key, value) {
+             var cn = $('#country');
+             cn.append('<option>' + value.country_name + '</option>');
+          }
+          );
+       });
     $('#country').change((e) => {
         $.getJSON("./states.json", (states => {
             const filteredState = states.find(coun => coun.country === e.target.value)
+            var cn = $('#State');
+                cn.textContent = '';
             if(filteredState){
+                
                 $.each(filteredState.states, function (key, value) {
-                    var cn = $('#State');
+                   
                     cn.append('<option>' + value + '</option>');
+                   
                  })
             }    
         }))
+    
     })
 
     $('#btn_login_details').click(function () {
@@ -120,19 +133,21 @@ $(document).ready(function () {
         else {
             error_birthdate = '';
             ageCounter();
+            function ageCounter(){
+                var dob= $('#birthdate').val();
+            var dob = new Date(dob);
+           var today = new Date();
+           var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+           $('#age').textContent = age;
+        }
             $('#error_birthdate').text(error_birthdate);
             $('#birthdate').removeClass('has-error');
 
 
         }
+       
 
-        function ageCounter(){
-            var dob= $('#birthdate').val();
-        var dob = new Date(dob);
-       var today = new Date();
-       var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-       $('#age').html(age);
-    }
+       
 
 
 
