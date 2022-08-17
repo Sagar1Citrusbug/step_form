@@ -1,27 +1,67 @@
 $(document).ready(function () {
-    $.getJSON("./country.json",
-       function (data) {
-          $.each(data, function (key, value) {
-             var cn = $('#country');
-             cn.append('<option>' + value.country_name + '</option>');
-          }
-          );
-       });
+    $("#register_form").submit(e => {
+        e.preventDefault()
+        console.log("+++++++++++++++++++", e.target.user_name.value)
+
+        const container = $(".container")
+        container.empty()
+
+        const ul = document.createElement("ui")
+        const user_name = document.createElement("li")
+        user_name.textContent = `username : ${e.target.user_name.value}`
+
+        const email = document.createElement("li")
+        email.textContent = `email : ${e.target.email.value}`
+
+        const birthdate = document.createElement("li")
+        birthdate.textContent = `birthdate : ${e.target.birthdate.value}`
+
+        const age = document.createElement("li")
+        age.textContent = `age : ${e.target.age.value}`
+
+        const address = document.createElement("li")
+        address.textContent = `address : ${e.target.address.value}`
+
+        const country = document.createElement("li")
+        country.textContent = `country : ${e.target.country.value}`
+
+        const State = document.createElement("li")
+        State.textContent = `state : ${e.target.State.value}`
+
+        ul.appendChild(user_name)
+        ul.appendChild(email)
+        ul.appendChild(birthdate)
+        ul.appendChild(age)
+        ul.appendChild(address)
+        ul.appendChild(country)
+        ul.appendChild(State)
+
+        container.append(ul)
+    })
     $('#country').change((e) => {
         $.getJSON("./states.json", (states => {
             const filteredState = states.find(coun => coun.country === e.target.value)
-            var cn = $('#State');
-                cn.textContent = '';
-            if(filteredState){
-                
+            if (filteredState) {
+                var cn = $('#State');
+                cn.empty()
                 $.each(filteredState.states, function (key, value) {
-                   
                     cn.append('<option>' + value + '</option>');
-                   
-                 })
-            }    
+                })
+            }
         }))
-    
+    })
+
+    $('#birthdate').change(e => {
+
+        const bd = new Date(e.target.value)
+        const today = new Date()
+        var age = Math.floor((today - bd) / (365.25 * 24 * 60 * 60 * 1000));
+        // console.log(age)
+
+        const ageIn = $("#age")
+        // console.log(ageIn)
+
+        $("#age")[0].value = age
     })
 
     $('#btn_login_details').click(function () {
@@ -74,6 +114,10 @@ $(document).ready(function () {
             error_password = 'Password is required';
             $('#error_password').text(error_password);
             $('#password').addClass('has-error');
+        }else if($.trim($('#password').val()).length < 6){
+            error_password = 'Password is short';
+            $('#error_password').text(error_password);
+            $('#password').addClass('has-error');
         }
         else {
             error_password = '';
@@ -92,7 +136,7 @@ $(document).ready(function () {
             $('#confirm_password').removeClass('has-error');
         }
 
-     if (error_user_name != '' || error_email != '' || error_password != '' || error_confirm_password != '') {
+        if (error_user_name != '' || error_email != '' || error_password != '' || error_confirm_password != '') {
             return false;
         }
         else {
@@ -106,7 +150,7 @@ $(document).ready(function () {
             $('#list_personal_details').attr('data-toggle', 'tab');
             $('#personal_details').addClass('active in');
         }
-    
+
     });
 
     $('#previous_btn_personal_details').click(function () {
@@ -132,26 +176,11 @@ $(document).ready(function () {
         }
         else {
             error_birthdate = '';
-            ageCounter();
-            function ageCounter(){
-                var dob= $('#birthdate').val();
-            var dob = new Date(dob);
-           var today = new Date();
-           var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-           $('#age').textContent = age;
-        }
+            // ageCounter();
             $('#error_birthdate').text(error_birthdate);
             $('#birthdate').removeClass('has-error');
-
-
         }
        
-
-       
-
-
-
-
         if ($.trim($('#age').val()).length == 0) {
             error_age = 'Age is required';
             $('#error_age').text(error_age);
@@ -194,7 +223,7 @@ $(document).ready(function () {
     $('#btn_contact_details').click(function () {
         var error_address = '';
         var error_country = '';
-        //  var mobile_validation = /^\d{10}$/;
+
         if ($.trim($('#address').val()).length == 0) {
             error_address = 'Address is required';
             $('#error_address').text(error_address);
@@ -205,25 +234,18 @@ $(document).ready(function () {
             $('#error_address').text(error_address);
             $('#address').removeClass('has-error');
         }
-   
-        $.getJSON("http://127.0.0.1:5500/countries.json",
-        function (data) {
-           $.each(data, function (key, value) {
-              var cn = $('#country');
-              cn.append('<option>' + value.country_name + '</option>');
-           }
-           );
-        });
 
-       
+        $.getJSON("./country.json",
+            function (data) {
+                $.each(data, function (key, value) {
+                    var cn = $('#country');
+                    cn.append('<option>' + value.country_name + '</option>');
+                }
+                );
+            });
+
         if (error_address != '') {
             return false;
         }
-        else {
-            $('#btn_contact_details').attr("disabled", "disabled");
-            $(document).css('cursor', 'prgress');
-            $("#register_form").submit();
-        }
-
     });
 });
